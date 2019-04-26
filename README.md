@@ -1,2 +1,2 @@
-# Algorithm
-刷题指南
+# Notes
+秋招复习笔记
