@@ -21,7 +21,8 @@
 * Nginx是一个轻量级的WEB服务,功能模块少,代码模块化
 * CPU亲和:多个worker进程分别绑定在不同的CPU上(CPU亲和:是一种把CPU核心和Nginx工作进程绑定方式,把每个worker进程固定在一个CPU上执行来减少切换CPU的cache miss,获得更好的性能)
 * sendfile,0拷贝,文件只通过内核空间传递给Socket
-**注:关于epoll(https://blog.csdn.net/hansionz/article/details/86517574)**
+
+**关于epoll:https://blog.csdn.net/hansionz/article/details/86517574**
 
 #### 3.安装Nginx与基本参数使用
 
