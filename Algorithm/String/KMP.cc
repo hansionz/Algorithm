@@ -26,6 +26,11 @@ using namespace std;
 //         那必须要它们的前缀等量相同，但这不可能只有到j开始
 //         匹配采用等量的前缀
 
+// 应用:(京东面试题) 原始串 abcabc 可以在原始串后边添加字符串并且要包含两个原始串
+//       使得新串的长度最小,abcabcabc 包含两个abcabc并且长度最短
+// 解法: 计算整体串(终止位置)的next值,然后将最长前缀和最长后缀叠在一起
+// 应用: 两个树T1、T2,判断T1的子树是否和T2相等(子树是指一个结点下的所有到叶节点的树)
+// 解法: 将两棵树按照前序的方式序列化为一个字符串,然后判断str2是否匹配在str1
 class Solution
 {
     public:
@@ -35,14 +40,15 @@ class Solution
             }
             int sr = 0;
             int sb = 0;
-            vector<int> next = getNextArray(sub);
+            vector<int> next(sub.size());
+            getNextArray(sub, next);
             while(sr < str.size() && sb < sub.size()){
                 if(str[sr] == sub[sb]){
                     sr++;
                     sb++;
-                }else if(next[sb] == -1) {
+                } else if(next[sb] == -1) {
                     sr++;
-                }else{
+                } else{
                     sb = next[sb];
                 }
             }
@@ -50,15 +56,16 @@ class Solution
             return sb == sub.size() ? sr - sb : -1;
         }
     private:
-        static vector<int> getNextArray(string sub){
+        static vector<int> getNextArray(string sub, vector<int>& next){
             // 动态规划
             // i位置的next值是i-1位置上的值
-            // 如果
-            vector<int> next;
+            // 如果 i - 1位置上的值等于i - 1最长前缀后一个的字符
+            // 则i位置上的next值为i-1位置上的值加1
+            // 如果不相等，i-1位置上的最长前缀继续想前跳,知道相等
+            // 截止条件有元素可以划分
             if(sub.size() == 1){
                 return next;
             }
-
             next[0] = -1;
             next[1] = 0;
             int i = 2;
@@ -66,9 +73,9 @@ class Solution
             while(i < next.size()){
                 if(sub[i - 1] == sub[cn]){
                     next[i++] = ++cn;
-                }else if(cn > 0){
+                } else if(cn > 0){
                     cn = next[cn];
-                }else{
+                } else{
                     next[i++] = 0;
                 }
             }
@@ -79,7 +86,7 @@ class Solution
 int main()
 {
     string str1("abcdesf");
-    string sub("cdes");
+    string sub("cdesx");
     cout << Solution::KMP(str1, sub) << endl;
     return 0;
 }
