@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -16,6 +18,7 @@ class TrieNode
         bool is_end; // 标识这个结点是否为字符串结尾的结点
 };
 
+// trie树的前序遍历
 void preorder_trie(TrieNode* root, int layer){
     if(root == nullptr || layer < 0){
         return;
@@ -23,7 +26,7 @@ void preorder_trie(TrieNode* root, int layer){
     for(int i = 0; i < TRIE_MAX_CAHR_NUM; i++){
         if(root->child[i]){
             for(int j = 0; j < layer; j++){
-                cout << "---" << endl;
+                cout << "-"; // 那一层对应几个-
             }
             printf("%c", i + 'a');
             if(root->child[i]->is_end){
@@ -34,6 +37,81 @@ void preorder_trie(TrieNode* root, int layer){
         }
     }
 }
+// 获取tire树存储的所有字符串
+void get_all_eord_from_trie(TrieNode* node, string& word, vector<string>& word_list){
+    for(int i = 0; i < TRIE_MAX_CAHR_NUM; i++){
+        if(node->child[i]){
+            word.push_back(i + 'a');
+            if(node->child[i]->is_end){
+                word_list.push_back(word);
+            }
+            get_all_eord_from_trie(node, word, word_list);
+            word.erase(word.size() - 1, 1);
+        }
+    }
+}
+// 实现trie树
+class TrieTree{
+    TrieTree(){
+
+    }
+    ~TrieTree(){
+        for(size_t i = 0; i < node_vec.size(); i++){
+            delete node_vec[i];
+        }
+    }
+    // 将word插入到trie
+    void insert(const char* word){
+        TrieNode* ptr = &_root;
+        while(*word){
+            int pos = *word - 'a';
+            if(!ptr->child[pos]){
+                ptr->child[pos] = new_node();
+            }
+            ptr = ptr->child[pos];
+            word++;
+        }
+        ptr->is_end = true;
+    }
+    // 搜索trie中是否存在word
+    bool search(const char* word){
+        TrieNode* ptr = & _root;
+        while(*word){
+            int pos = *word - 'a';
+            if(!ptr->child[pos]){
+                return false;
+            }
+            ptr = ptr->child[pos];
+            word++;
+        }
+        return ptr->is_end;
+    }
+    // 搜索trie树中是否有前缀为prefix的单词
+    bool startsWith(const char* prefix){
+        TrieNode* ptr = &_root;
+        while(*prefix){
+            int pos = *prefix - 'a';
+            if(!ptr->child[pos]){
+                return false;
+            }
+            ptr = ptr->child[pos];
+            prefix++;
+        }
+        return true;
+    }
+    TrieNode* root(){
+        return &_root;
+    }
+    private:
+        // 在创建新结点时,使用vector保存指针,方便在析构时直接释放
+        TrieNode* new_node(){
+            TrieNode* node = new TrieNode();
+            node_vec.push_back(node);
+            return node;
+        }
+        vector<TrieNode*> node_vec;
+        TrieNode _root;
+};
 int main()
 {
     // 简单构造一颗Tire树
