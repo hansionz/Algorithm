@@ -52,6 +52,7 @@ void get_all_eord_from_trie(TrieNode* node, string& word, vector<string>& word_l
 }
 // 实现trie树
 class TrieTree{
+public:
     TrieTree(){
 
     }
@@ -111,6 +112,46 @@ class TrieTree{
         }
         vector<TrieNode*> node_vec;
         TrieNode _root;
+};
+// Q:添加与查找单词（LeetCode 211）
+class WordDictionary{
+public:
+    WordDictionary(){
+    }
+    ~WordDictionary(){
+    }
+    void addWord(string word){
+        tree.insert(word.c_str());
+    }
+    bool search(string word){
+        search_trie(tree.root(), word.c_str());
+    }
+private:
+    TrieTree tree;
+    bool search_trie(TrieNode* node, const char* word){
+        if(*word == '\0'){
+            if(node->is_end){
+                return true;
+            }
+            return false;
+        }
+        if(*word == '.'){
+            for(int i = 0; i < TRIE_MAX_CAHR_NUM; i++){
+                if(node->child[i] &&
+                        search_trie(node->child[i], word + 1)){
+                    return true;
+                }
+            }
+        }
+        else{
+            int pos = *word - 'a';
+            if(node->child[pos] && 
+                    search_trie(node->child[pos], word + 1)){
+                return true;
+            }
+        }
+        return false;
+    }
 };
 int main()
 {
