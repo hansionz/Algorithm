@@ -1,4 +1,4 @@
-# 秋招复习笔记
+## 秋招复习笔记
 
 * [C++](https://github.com/hansionz/Notes/tree/master/C%2B%2B)
 * [Linux操作系统](https://github.com/hansionz/Notes/tree/master/Linux)
