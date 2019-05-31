@@ -71,7 +71,6 @@ ListNode* reverseBetween(ListNode* head, int m, int n){
 }
 // 问题3:求两个无环链表的交点（LeetCode 160）
 ListNode* getInetrsectionNode(ListNode* headA, ListNode* headB){
-
 }
 int main()
 {
