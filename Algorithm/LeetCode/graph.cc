@@ -62,6 +62,7 @@ int main()
         }
         cout << endl;
     }
+    // 释放动态开辟的结点
     for(int i = 0; i < MAX_N; i++){
         delete graph[i];
     }
