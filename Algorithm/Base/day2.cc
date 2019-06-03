@@ -49,8 +49,6 @@ class ArrayToQueue{
         ArrayToQueue(int size) : arr(size), first(0),last(0){
 
         } 
-
-
         ~ArrayToQueue(){
 
         }
