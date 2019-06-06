@@ -88,11 +88,6 @@ void quickSort(vector<int> &arr){
 // 比较器的使用: C++中相当于仿函数中重载了> 或者 < 符号(查)
 // 堆结构也可以使用比较器
 
-void HeapSort(vector<int>& arr){
-    if(arr.size() == 0){
-        return;
-    }
-}
 
 // 非基于比较的排序
 // 桶排序: 计数排序、基数排序都是桶排序的一种
